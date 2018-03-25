@@ -1,0 +1,51 @@
+.input_number{
+    display: inline-block;
+    border: 2px solid #eee;
+
+    .input_sub,.input_add{
+        display: inline-block;
+        width: 60px;
+        height: 60px;
+        position: relative;
+        vertical-align: middle;
+        background-color: #fafafa;
+        text-align: center;
+        
+        &.active{
+            background-color: #f4f4f4;
+            
+            .image_icons{
+                opacity: 1,
+            }
+        }
+        
+        .image_icons{
+            display: inline-block;
+            background-color: transparent;
+            background-repeat: no-repeat;
+            background-position: 50%;
+            opacity: .3;
+            width: 60px;
+            height: 60px;
+            background-size: 30px 30px;
+            
+            &.icon_line{
+                background-image: url(../../assets/shopAc/line.png);
+            }
+            
+            &.icon_cross{
+                background-image: url(../../assets/shopAc/cross.png);
+            }
+        }
+    }
+    
+    .input_num{
+        display: inline-block;
+        vertical-align: middle;
+        min-width: 60px;
+        padding: 0 12px;
+        line-height: 60px;
+        text-align: center;
+        font-size: 32px;
+    }
+}

@@ -1,0 +1,124 @@
+.list_navbar{
+    position: fixed;
+    top: 90px;
+    bottom: 100px;
+    left: 0;
+    width: 152px;
+    border-right: 2px solid #efefef;
+    overflow: hidden;
+    
+    ul{
+        z-index: 90;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: -30px;
+        padding: 20px 30px 20px 0;
+        background: #fefefe;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        
+        li{
+            font-size: 34px;
+            height: 90px;
+            line-height: 90px;
+            overflow: hidden;
+            text-align: center;
+            -webkit-tap-highlight-color: rgba(0,0,0,0);
+            transition: transform .1s linear;
+            transform-origin: center center;
+            transform: scale(.76);
+            
+            &:global(.active){
+                color: #fb7d34;
+                transform: scale(1);
+            }
+        }
+    }
+}
+
+.list_wrap{
+    position: absolute;
+    left: 152px;
+    right: 0;
+    top: 90px;
+    bottom: 100px;
+    padding: 2px 32px;
+    overflow: auto;
+    
+    &>li:last-child{
+        min-height: calc(100vh - 1.9rem);
+    }
+    
+    img{
+        display: block;
+        height: auto;
+    }
+    
+    .category_title{
+        background: #fff;
+        font-size: 28px;
+        text-align: center;
+        font-weight: 400;
+        margin-top: 20px;
+        height: 128px;
+        line-height: 128px;
+        overflow: hidden;
+        
+        span{
+            position: relative;
+            
+            &:before{
+                content: "";
+                position: absolute;
+                top: 50%;
+                left: 0;
+                width: 40px;
+                border-top: 1px solid #e0e0e0;
+                transform: translate3d(-150%,-50%,0);
+            }
+            
+            &:after{
+                content: "";
+                position: absolute;
+                top: 50%;
+                right: 0;
+                width: 40px;
+                border-top: 1px solid #e0e0e0;
+                transform: translate3d(150%,-50%,0);
+            }
+        }
+    }
+    
+    .category_group{
+        background: #fff;
+        margin: -6px 0 0;
+        
+        .product{
+            width: 33.33%;
+            float: left;
+            text-align: center;
+            margin-top: 20px;
+            margin-bottom: 30px;
+            overflow: hidden;
+            
+            .img{
+                width: 100px;
+                height: 100px;
+                margin: 0 auto;
+                background: #fff;
+                overflow: hidden;
+            }
+            
+            .name{
+                margin-top: 28px;
+                font-size: 23px;
+                color: rgba(0,0,0,.54);
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+        }
+    }
+}

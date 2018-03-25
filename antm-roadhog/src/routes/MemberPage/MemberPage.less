@@ -1,0 +1,169 @@
+.triangle_after(){
+    content: "";
+    position: absolute;
+    right: 32px;
+    top: 50%;
+    width: 20px;
+    height: 20px;
+    border-left: 1px solid currentColor;
+    border-top: 1px solid currentColor;
+    transform: translate3d(0,-50%,0) rotate(135deg);
+}
+
+.member_hd{
+    background: url(../../assets/headBg.png) center 0 #f37d0f;
+    background-size: auto 100%;
+    padding: 32px 0;
+}
+
+.member_img{
+    margin: 0 16px 0 32px;
+    width: 96px;
+    height: 96px;
+    overflow: hidden;
+    border-radius: 100%;
+    border: 3px solid hsla(0, 0%, 100%, .4);
+    text-align: center;
+}
+
+.member_name{
+    font-size: 24px;
+    color: #ffffff;
+    text-align: left;
+    
+    .account{
+        color: hsla(0,0%,100%,.6);
+    }
+}
+
+.gery_line{
+    height: 20px;
+    background: #f5f5f5;
+    overflow: hidden;
+    clear: both;
+}
+
+.b1{
+    background: #FFFFFF;
+    height: 80px;
+    border-bottom: 1px solid rgba(0, 0, 0, .15);
+    color: rgba(0, 0, 0, .54);
+    position: relative;
+    padding-right: 56px;
+    
+    &:after{
+        .triangle_after();
+    }
+    
+    .cite{
+        font-size: 28px;
+        padding: 0 0 0 32px;
+        color: rgba(0, 0, 0, .87);
+    }
+    
+    .span,a{
+        font-size: 24px;
+        color: rgba(0, 0, 0, .87);
+    }
+}
+
+.b2{
+    padding: 0 80px;
+    background: #FFFFFF;
+    
+    .icon{
+        display: block;
+        width: 48px;
+        height: 48px;  
+        margin: 0 auto 16px;
+        background: url(../../assets/member/noPay.png) no-repeat center 0;
+        background-size: 100% auto;  
+    }
+    
+    .dah .icon{
+        background-image: url(../../assets/member/noReceive.png);
+    }
+    
+    .thx .icon{
+        background-image: url(../../assets/member/repair.png);
+    }
+    
+    &>a{
+       position: relative;
+       display: block;
+       padding: 40px 0; 
+       font-size: 22px;
+       
+       &>span{
+           color: rgba(0,0,0,.87);
+       }
+    }
+}
+
+.items{
+    background: #FFFFFF;
+    
+    li{
+        position: relative;
+        color: rgba(0,0,0,.54);
+        border-bottom: 1px solid rgba(0,0,0,.15);
+        line-height: 0;
+        background: url(../../assets/member/crown.png) no-repeat 32px;
+        background-size: 48px auto;
+        
+        &:last-child{
+            border-bottom: none;
+        }
+        
+        &.i_member{
+            background-image: url(../../assets/member/crown.png);
+        }
+        
+        &.i_wallet{
+            background-image: url(../../assets/member/coupon.png);
+        }
+        
+        &.i_service{
+            background-image: url(../../assets/member/service.png);
+        }
+        
+        &.i_fcode{
+            background-image: url(../../assets/member/fCode.png); 
+        }
+        
+        &.i_set{
+            background-image: url(../../assets/member/set.png);
+        }
+        
+        &>a{
+            display: block;
+            padding-right: 56px;
+            padding-left: 112px;
+            height: 104px;
+            display: -webkit-box;
+            -webkit-box-align: center;
+            -webkit-box-pack: justify;
+            color: currentcolor;
+            
+            .cite{
+                font-size: 28px;
+                font-style: normal;
+                color: rgba(0,0,0,.87);
+            }
+        }
+        
+        &:before{
+            content: "";
+            position: absolute;
+            left: 0;
+            top: -2px;
+            height: 3px;
+            background: #fff;
+            width: 112px;
+        }
+        
+        &:after{
+            .triangle_after();
+        }
+    }
+}

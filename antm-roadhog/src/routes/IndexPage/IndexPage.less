@@ -1,0 +1,77 @@
+/*头部flex部分*/
+.head_flex{
+    padding: 0 30px;
+    height: 300px;
+    background: #ffffff;
+}
+
+.head_flex_inline{
+    width: 100%;
+    text-align: center;
+}
+
+.head_flex_svg{
+    width: 100px;
+    height: 100px;
+}
+
+.head_flex_int{
+    margin-top: 20px;
+    font-size: 28px;
+    line-height: 38px;
+    color: #a9835e;
+}
+/*下方分类盒子*/
+.page_item{
+    margin-top: 20px;
+    padding: 36px 30px 55px;
+    border-bottom: 2px solid #e0e0e0;
+    background: #ffffff;
+}
+
+.page_item_title{
+    font-size: 32px;
+    color: #3f3f3f;
+    line-height: 50px;
+    position: relative;
+    text-align: left;
+}
+
+.page_item_title > small{
+    position: relative;
+    font-size: 26px;
+    font-weight: normal;
+    color: #5c5c5c;
+    padding-left: 40px;
+    
+    &::before{
+        content: '';
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        display: block;
+        left: 20px;
+        width: 4px;
+        height: 24px;
+        background: #BBA48E;
+    }
+}
+
+.page_item_img{
+    display: block;
+    margin-top: 35px;
+    height: 440px;
+}
+
+.page_item_flex{
+    margin-top: 20px;
+    
+    &>a{
+        margin-right: 16px;
+        height: 220px;
+    }
+    
+    &>a:last-child{
+        margin-right: 0;
+    }
+}

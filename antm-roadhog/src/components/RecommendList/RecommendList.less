@@ -1,0 +1,67 @@
+.recommend_box{
+    background: #fff;
+    text-align: left;
+    
+    .recommend_img{
+        width: 750px;
+        
+        img{
+            width: 750px;
+            height: 125px;
+        }
+    }
+}
+
+.price(){
+    position: relative;
+    padding-left: .5em;
+    line-height: 1em;
+    
+    &:before{
+        content: "\A5";
+        position: absolute;
+        left: 0;
+        top: 0;
+        font-size: .76em;
+        text-decoration: none;
+    }
+}
+
+.recommend_list{
+    overflow: hidden;
+    flex: 1 1 auto;
+    
+    .goods_item{
+        position: relative;
+        flex: 0 1 49.5%;
+        overflow: hidden;
+        
+        a{
+            display: block;
+        }
+    }
+    
+    .goods_info{
+        padding: 18px 26px 22px;
+    }
+    
+    .goods_name{
+        font-size: 28px;
+    }
+    
+    .goods_price{
+        margin-top: 10px;
+        font-size: 32px;
+        line-height: 32px;
+        color: #ff6700;
+        .price();
+        
+        del{
+            font-size: 24px;
+            margin-left: 14px;
+            color: rgba(0,0,0,.54);
+            text-decoration: line-through;
+            .price();
+        }
+    }
+}
