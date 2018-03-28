@@ -10,20 +10,6 @@ export default {
 		needSearch: false,
 		animateCls: 'slide-left',
 	},
-	reducers: {
-		setCommonState: function(state, { payload }){
-			return {
-				...state,
-				hasHeader: payload.hasHeader,
-				headerContent: payload.headerContent,
-				hasFooter: payload.hasFooter,
-				footSelect: payload.footSelect,
-				needBack: payload.needBack,
-				needSearch: payload.needSearch,
-				animateCls: payload.animateCls,
-			};
-		},
-	},
 	effects: {
 		setViewState: function *({ payload, onComplete }, {call, put, take, select}){
 			const oriFootSelect = yield select(state => { return state.appView.footSelect; });
@@ -40,8 +26,19 @@ export default {
 				payload.animateCls = 'slide-left';
 			}
 			yield put({type: 'setCommonState', payload: payload });
-			onComplete();
+			
+			if(onComplete){
+				onComplete();
+			}
 		}
+	},
+	reducers: {
+		setCommonState: function(state, { payload }){
+			return {
+				...state,
+				...payload,
+			};
+		},
 	},
 	subscriptions: {
 		

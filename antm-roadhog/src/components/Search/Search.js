@@ -2,6 +2,8 @@ import TweenOne from 'rc-tween-one';
 import React from 'react';
 import { Icon } from 'antd-mobile';
 import CustomIcon from '../CustomIcon/CustomIcon';
+import { Toast } from 'antd-mobile';
+
 import styles from './Search.less';
 
 class Search extends React.Component{
@@ -27,6 +29,9 @@ class Search extends React.Component{
 			this.refs.searchInput.value = '';
 		}
 	}
+	onSearch = () => {
+		Toast.info('此功能还在开发当中!~');
+	}
   	render(){
   		let props = this.props;
   		let openStyle = this.props.open ? { left: '0' } : {};
@@ -49,7 +54,7 @@ class Search extends React.Component{
   						</div>
   						<input ref="searchInput" className={styles.search_wrapper_input} type="text" placeholder="请输入关键字" />
   					</div>
-  					<a className={styles.search_wrapper_right}>搜索</a>
+  					<a className={styles.search_wrapper_right} onClick={this.onSearch}>搜索</a>
   				</div>
   				<div className={styles.search_recomend}>
   					<h2 className={styles.search_recomend_title}>热门搜索</h2>

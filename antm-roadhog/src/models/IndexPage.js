@@ -8,17 +8,8 @@ export default {
 		CarouselData: [],
 		TabList: [],
 	},
-	subscriptions: {
-		setup({ dispatch, history }) {
-      		return history.listen(({ pathname, query }) => {
-        		if (pathname === '/index') {
-          			dispatch({ type: 'fetchData', payload: query });
-        		}
-      		});
-    	},
-	},
 	effects: {
-		*fetchData({ payload }, {call, put}){
+		*fetchData({ payload, onComplete }, {call, put}){
 			const { data } = yield call(dataEarn, {payload});
 			const { status, pageData } = data;
 			if(status == 'success'){
@@ -28,6 +19,8 @@ export default {
 					payload: { CarouselData, TabList },
 				});
 			}
+			
+			onComplete();
 		},
 	},
 	reducers:{

@@ -83,6 +83,12 @@ const RegisterPage = ({
 				<div className={styles.btn_box}>
 					<a className={ styles.btn_register } onClick={registerSubmit}>注册</a>
 				</div>
+				<div className={styles.total_tips}>
+					由于是纯前端页面,故使用固定账户,<br/>
+					一切数据均为模拟数据<br/>
+					账号: 13999260121 <br/>
+					密码: 123456
+				</div>
 			</div>
 		</MainLayout>
 	);

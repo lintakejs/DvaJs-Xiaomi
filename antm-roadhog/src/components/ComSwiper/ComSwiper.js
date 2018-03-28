@@ -9,7 +9,7 @@ class ComSwiper extends React.Component{
 	
 	componentDidMount(){
 		if(this.sw == null){
-			const { resistanceRatio } = this.props
+			const { resistanceRatio, autoplay } = this.props
 			
 			this.sw = new Swiper('.swiper-container', {
 				lazy: true,
@@ -18,6 +18,7 @@ class ComSwiper extends React.Component{
 				    el: '.swiper-pagination',
 				    type: 'bullets',
 				},
+				autoplay: autoplay,
 				resistanceRatio: resistanceRatio > 0 ? resistanceRatio : 0,
 			});
 		}

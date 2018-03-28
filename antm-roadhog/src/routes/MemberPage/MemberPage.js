@@ -2,11 +2,12 @@ import { connect } from 'dva';
 import { Flex, WhiteSpace } from 'antd-mobile';
 import { Link } from 'dva/router';
 import MainLayout from '../../components/MainLayout/MainLayout';
-
+import { routerRedux } from 'dva/router';
 import styles from './MemberPage.less';
 import userImg from "../../assets/user.png";
 
 const MemberPage = ({
+	dispatch,
     isLogin,
     account,
 }) => {
@@ -25,7 +26,7 @@ const MemberPage = ({
 	return (
 		<MainLayout hasHeader={false} hasStyle={{background: '#f5f5f5'}}>
 			<header className={styles.member_hd}>
-				<Flex>
+				<Flex onClick={(e) => { if(isLogin)return false; dispatch(routerRedux.push("/login")); }}>
 					<div className={styles.member_img}>
 						<img src={userImgSrc}/>
 					</div>

@@ -2,7 +2,8 @@ import { connect } from 'dva';
 import { Flex } from 'antd-mobile';
 import CustomIcon from '../../components/CustomIcon/CustomIcon';
 import IndexNavbar from '../../components/IndexNavbar/IndexNavbar';
-import ComCarousel from '../../components/ComCarousel/ComCarousel';
+import ComSwiper from '../../components/ComSwiper/ComSwiper';
+import ImgLazy from '../../components/ImgLazy/ImgLazy';
 
 import MainLayout from '../../components/MainLayout/MainLayout';
 
@@ -17,7 +18,7 @@ const IndexPage = ({
 	return (
 		<MainLayout>
 			<IndexNavbar />
-			<ComCarousel slideItem={carouselData} />
+			<ComSwiper slideItem={carouselData} autoplay={{delay: 2000,}} />
 			<Flex justify="center" className={styles.head_flex}>
 				<div className={styles.head_flex_inline}>
 					<CustomIcon className={styles.head_flex_svg} type={require('../../svg/birthday.svg')} />
@@ -41,13 +42,13 @@ const IndexPage = ({
 								<small>{item.TabTitle}</small>
 							</h2>
 							<a href="#" className={styles.page_item_img}>
-								<img src={item.TabMain} />
+								<ImgLazy src={item.TabMain} />
 							</a>
 							<Flex justify="between" className={styles.page_item_flex}>
 								{
 									TabList[index].TabChildList.map((item_child, index_child) => (
 										<a href="#" key={index_child}>
-											<img src={item_child} />
+											<ImgLazy src={item_child} />
 										</a>
 									))
 								}

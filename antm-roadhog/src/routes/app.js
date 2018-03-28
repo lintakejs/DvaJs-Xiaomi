@@ -38,6 +38,7 @@ const App = ({
 	let Comtab = hasFooter ? (<ComTabBar {...comtabState} />) : '';
 	return (
 		<div className="app_shell">
+			{content}
 			<ReactCSSTransitionGroup
 				className="app_shell_header"
 				transitionName="slide-down"

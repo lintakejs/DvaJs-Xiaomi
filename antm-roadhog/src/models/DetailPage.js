@@ -24,12 +24,13 @@ export default {
 		}
 	},
 	effects: {
-		fetchPdView: function *({ payload, oncomplate }, {call, put, take}){
+		fetchPdView: function *({ payload, onComplete }, {call, put, take}){
 			const { data } = yield call(getPdView, {payload});
 			const { status, datas } = data;
 			const { view_content, goods_info, buy_option, default_goods_id } = datas;
 			if(status == 'success'){
 				yield put({ type: 'setViewContent', payload: { view_content, goods_info, buy_option, default_goods_id } });
+				onComplete();
 			}
 		},
 	},

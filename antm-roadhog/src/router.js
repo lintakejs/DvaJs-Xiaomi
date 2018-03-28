@@ -4,6 +4,7 @@ import { Router } from 'dva/router';
 const cached = {};
 function registerModel(app, model) {
   if (!cached[model.namespace]) {
+  	app.unmodel(model.namespace);
     app.model(model);
     cached[model.namespace] = 1;
   }
@@ -17,6 +18,22 @@ function RouterConfig({ history, app }) {
         payload: {},
         onComplete: callback
     });
+	}
+	
+	function requireIndex(nextState, replace, callback){
+		app._store.dispatch({
+        type: 'IndexPage/fetchData',
+        payload: {},
+        onComplete: callback
+    });
+	}
+	
+	function requireCartInf(nextState, replace, callback){
+		app._store.dispatch({
+			type: 'ShopCar/fetchCartInf',
+			payload: {},
+			onComplete: callback
+		});
 	}
 	
 	function requireCateList(nextState, replace, callback){
@@ -101,14 +118,15 @@ function RouterConfig({ history, app }) {
 				{
 					path: 'index',
 					onEnter(nextState, replace, callback){
+						registerModel(app, require('./models/IndexPage'));
+						requireIndex(nextState, replace, callback);
+					},
+					getComponent(nextState, cb){
 						setCommon({
 							hasHeader: true,
 							footSelect: 0,
-						}, callback);
-					},
-					getComponent(nextState, cb){
+						});
 						require.ensure([], (require) => {
-							registerModel(app, require('./models/IndexPage'));
 							cb(null, require('./routes/IndexPage/IndexPage'));
 						});
 					}
@@ -116,14 +134,14 @@ function RouterConfig({ history, app }) {
 				{
 					path: 'gallery',
 					onEnter(nextState, replace, callback){
-						setCommon({
-							headerContent: '分类',
-							footSelect: 1,
-						}, callback);
 						registerModel(app, require('./models/ClassifiPage'));
 						requireCateList(nextState, replace, callback);
 					},
 					getComponent(nextState, cb){
+						setCommon({
+							headerContent: '分类',
+							footSelect: 1,
+						});
 						require.ensure([], (require) => {
 							cb(null, require('./routes/ClassifiPage/ClassifiPage'));
 						});
@@ -132,14 +150,17 @@ function RouterConfig({ history, app }) {
 				{
 					path: 'cart',
 					onEnter(nextState, replace, callback){
+						registerModel(app, require('./models/ShopCar'));
+						requireCartInf(nextState, replace, callback);
+					},
+					getComponent(nextState, cb){
 						setCommon({
 							headerContent: '购物车',
 							footSelect: 2,
-						}, callback);
-					},
-					getComponent(nextState, cb){
+							hasFooter: app._store.getState().ShopCar.items.length > 0 ? false : true,
+						});
+						requireRecList();
 						require.ensure([], (require) => {
-							requireRecList();
 							cb(null, require('./routes/CartPage/CartPage'));
 						});
 					}
@@ -180,6 +201,7 @@ function RouterConfig({ history, app }) {
 							headerContent: '登录',
 							hasFooter : false,
 							footSelect : 6,
+							needSearch : false,
 						}, callback);
 					},
 					getComponent(nextState, cb){
@@ -194,6 +216,7 @@ function RouterConfig({ history, app }) {
 							headerContent: '注册',
 							hasFooter : false,
 							footSelect : 7,
+							needSearch : false,
 						}, callback);
 					},
 					getComponent(nextState, cb){
@@ -219,15 +242,15 @@ function RouterConfig({ history, app }) {
 				},{
 					path: 'commodity/list/:listId',
 					onEnter(nextState, replace, callback){
-						setCommon({
-							headerContent: '商品列表',
-							footSelect : 8,
-						}, callback);
 						requireRecList();
 						registerModel(app, require('./models/ListPage'));
 						requireComList(nextState, replace, callback);
 					},
 					getComponent(nextState, cb){
+						setCommon({
+							headerContent: '商品列表',
+							footSelect : 8,
+						});
 						require.ensure([], (require) => {
 							cb(null, require('./routes/CommodityPage/ListPage'));
 						});
@@ -235,16 +258,17 @@ function RouterConfig({ history, app }) {
 				},{
 					path: 'commodity/detail/:productId',
 					onEnter(nextState, replace, callback){
+						requireRecList();
+						registerModel(app, require('./models/DetailPage'));
+						requirePdView(nextState, replace, callback);
+					},
+					getComponent(nextState, cb){
 						setCommon({
 							hasHeader: false,
 							headerContent: '商品详情',
 							hasFooter: false,
 							footSelect : 9,
-						}, callback);
-						registerModel(app, require('./models/DetailPage'));
-						requirePdView(nextState, replace, callback);
-					},
-					getComponent(nextState, cb){
+						});
 						require.ensure([], (require) => {
 							cb(null, require('./routes/CommodityPage/detailPage/detailPage'));
 						});

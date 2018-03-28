@@ -11,6 +11,7 @@ export default {
 	namespace: 'app',
 	state: {
 		isLogin: false,
+		client_id: '',
 		account: {
 			accountToken: '',
 			phone: '',
@@ -21,7 +22,12 @@ export default {
 		queryUserSuccess: function (state, {payload}) {
 			return {
 				...state,
-				account: payload.account,
+				client_id: payload.client_id,
+                account:{
+					accountToken: payload.accountToken,
+					phone: payload.phone,
+					nikeName: payload.nikeName,
+				}
 			}
 		},
 		hasToken: function (state, {payload}) {
@@ -34,6 +40,7 @@ export default {
             return {
                 ...state,
                 isLogin: false,
+                client_id: '',
                 account:{
 					accountToken: '',
 					phone: '',
@@ -45,6 +52,7 @@ export default {
        		return {
        			...state,
                 isLogin: true,
+                client_id: payload.client_id,
                 account:{
 					accountToken: payload.accountToken,
 					phone: payload.phone,
@@ -59,13 +67,13 @@ export default {
 			try{
 				const { data } = yield call(auth, {username, password});
 				if(data.status == 'success'){
-					const { phone, accountToken, nikeName } = data.data;
+					const { phone, accountToken, nikeName, client_id } = data.data;
 					
 					window.localStorage.setItem(storageTokenKey, accountToken);
 					
 					yield put({
                         type: 'authSuccess',
-                        payload: { phone, accountToken, nikeName }
+                        payload: { phone, accountToken, nikeName, client_id }
                    });
 				}
 				else{
@@ -75,11 +83,12 @@ export default {
 			catch(error){
 				Toast.info(error);
 			}
-			yield put(routerRedux.push('/member'));
+			yield put(routerRedux.goBack());
 		},
 		enterAuth: function *({payload, onComplete}, {put, take}){
 			yield [put({type: 'checkToken'}), put({type: 'queryUser'})];
-            onComplete();
+			yield [take('app/queryUserSuccess')];
+	        onComplete();
 		},
 		checkToken: function*({payload}, {put, call, select}) {
 			const token = window.localStorage.getItem(storageTokenKey);
@@ -89,15 +98,15 @@ export default {
                 yield put({type: 'authFail'});
             }
 		},
-		queryUser: function *({payload}, {put, call}) {
+		queryUser: function *({payload}, {put, take, call}) {
 			const {data} = yield call(fetchUser);
 			if (data) {
-				if(data.status == 'success'){
-					yield put({
-	                    type: 'queryUserSuccess',
-	                    payload: {account: data.data}
-	                });
-               	}
+				const { phone, accountToken, nikeName, client_id } = data.data;
+				
+				yield put({
+                    type: 'queryUserSuccess',
+                    payload: { phone, accountToken, nikeName, client_id }
+              	});
 			}
 		},
 		register: function *({payload}, {put, call}){

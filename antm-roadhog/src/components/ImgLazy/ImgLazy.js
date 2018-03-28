@@ -8,6 +8,7 @@ export default class ImgLazy extends Component {
         // 初始状态
         this.state = {
             isLoaded: false,
+            beginLoad: this.props.beginLoad,
         };
         this._handleScroll = this._handleScroll.bind(this);
        	//使用函数节流，性能优先
@@ -22,6 +23,17 @@ export default class ImgLazy extends Component {
         this._outSideBox.addEventListener('scroll', this.handleScroll);
         this._outSideBox.addEventListener('resize', this.handleScroll);
         this._handleScroll();
+    }
+    
+    /**
+     * 重新开启开关时
+     */
+    componentWillReceiveProps(nextProps){
+    	this.setState({
+    		beginLoad: nextProps.beginLoad
+    	},() => {
+    		this._handleScroll();
+    	});
     }
 
     /**
@@ -52,6 +64,7 @@ export default class ImgLazy extends Component {
      */
     getScrollTop() {
         let scrollTop = 0;
+        
         if (this._outSideBox && this._outSideBox.scrollTop) {
             scrollTop = this._outSideBox.scrollTop;
         } else if (document.body) {
@@ -59,7 +72,7 @@ export default class ImgLazy extends Component {
         } else {
             scrollTop = window.scrollY || window.pageYOffset;
         }
-
+		
         return scrollTop;
     }
 
@@ -71,6 +84,7 @@ export default class ImgLazy extends Component {
         
         const img = ReactDOM.findDOMNode(this); //当前节点
         const nodeTop = img.getBoundingClientRect().top + viewTop;
+        
         const nodeBottom = nodeTop + img.offsetHeight;
         return {
             nodeTop: nodeTop,
@@ -102,9 +116,12 @@ export default class ImgLazy extends Component {
      */
     _handleScroll() {
         const {offset} = this.props; //偏移量
-
+		const {beginLoad} = this.state;
+		if(!beginLoad){
+			return false;
+		}
         const {nodeTop ,nodeBottom} = this.getNodeTop();
-		
+        
         const viewTop = this.getScrollTop();
         
         const viewBottom = viewTop + this.getClientHeight();
@@ -127,14 +144,14 @@ export default class ImgLazy extends Component {
         const {isLoaded} = this.state;
         let true_src = isLoaded ? src : placeholder;
         return (
-            <img className={className} style={style}
-                 src={true_src}/>
+            <img className={className} style={style} src={true_src}/>
         )
     }
 }
 
 ImgLazy.defaultProps = {
 	outSideBox: 'app_view',
-    placeholder: 'https://pic.solux.cn/PC/img-preloading.gif',//默认图片
+    placeholder: require('../../assets/img-preloading.gif'),//默认图片
     offset: 100,//默认距离
+    beginLoad: true,
 }

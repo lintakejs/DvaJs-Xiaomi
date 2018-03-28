@@ -323,3 +323,89 @@
         }
     }
 }
+
+.description_view{
+    margin-top: 16px;
+    
+    .description_tab_header{
+        height: 88px;
+        background: #fff;
+        will-change: scroll-position;
+        
+        &>a{
+            display: block;
+            font-size: 26px;
+            width: 100%;
+            border-right: 2px solid #f4f4f4;
+            flex: 1 1 auto;
+            text-align: center;
+            
+            &.on{
+                color: #ff6700;
+            }
+        }
+    }
+    
+    .description_tab_view{
+        background: #FFFFFF;
+    }
+}
+
+.detail_footer{
+    height: 100px;
+    background: #fff;
+    box-shadow: 0 3px 14px 2px rgba(0,0,0,.12);
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    
+    .footer_btn{
+        display: block;
+        text-decoration: none;
+        width: 145px;
+        color: rgba(0,0,0,.54);
+        text-align: center;
+        border-left: 1px solid #f4f4f4;
+        
+        &:first-child{
+            border-left: none;
+        }
+    }
+    
+    .action_btn{
+        flex: 1 1 auto;
+        
+        .buy_btn{
+            display: block;
+            outline: 0;
+            background: #ff6700;
+            color: #fff;
+            text-align: center;
+            width: 100%;
+            height: 100px;
+            line-height: 100px;
+            font-size: 28px;
+        }
+    }
+    
+    .image_icons{
+        margin: 0 auto 10px;
+        display: block;
+        background-color: transparent;
+        background-repeat: no-repeat;
+        background-position: 50%;
+        width: 40px;
+        height: 40px;
+        background-size: cover;
+        
+        &.icon_home{
+            background-image: url(../../../assets/pdDetail/home.png);
+        }
+        
+        &.icon_shopcar{
+            background-image: url(../../../assets/pdDetail/shopcar.png);
+        }
+    }
+}

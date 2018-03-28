@@ -3,6 +3,8 @@ import { Flex, Modal, Button, Tabs, } from 'antd-mobile';
 import { Link, routerRedux, } from 'dva/router';
 import ComSwiper from '../../../components/ComSwiper/ComSwiper';
 import ComShopNumber from '../../../components/ComShopNumber/ComShopNumber';
+import ImgLazy from '../../../components/ImgLazy/ImgLazy';
+import RecommendList from '../../../components/RecommendList/RecommendList';
 
 import MainLayout from '../../../components/MainLayout/MainLayout';
 
@@ -17,6 +19,7 @@ class detailPage extends React.Component{
 			modelContent: '',
 			selectGoodsId: this.props.select_goods.goods_id,
 			selectNumber: this.props.select_goods.goods_number,
+			descriptionTab: 0,
 		};
 	}
 	
@@ -87,50 +90,50 @@ class detailPage extends React.Component{
 						<div className={styles.name}>{selectGoodsInfo.pd_name}</div>
 					</Flex>
 				</Flex>
+				<div className={styles.max5}>
 				{
 					buy_option.map((bitem, bindex) => {
 						return (
-							<div className={styles.max5} key={bindex}>
-								<div className={styles.mt2x}>
-									<div className={styles.option_title}>{bitem.name}</div>
-									<Flex className={styles.options_group} align="center" justify="start" wrap="wrap">
-										{
-											bitem.list.map((blitem, blindex) => {
-												if(!blitem.is_show){
-													return false;
+							<div className={styles.mt2x} key={bindex}>
+								<div className={styles.option_title}>{bitem.name}</div>
+								<Flex className={styles.options_group} align="center" justify="start" wrap="wrap">
+									{
+										bitem.list.map((blitem, blindex) => {
+											if(!blitem.is_show){
+												return false;
+											}
+											let flexClass = `${styles.options_item}`;
+											flexClass += bindex == 0 ? ` ${styles.line}` : '';
+											selectGoodsInfo.prop_list.some((obj) => {
+												if(obj.prop_cfg_id == bitem.prop_cfg_id && obj.prop_value_id == blitem.prop_value_id){
+													flexClass += ` ${styles.on}`;
+													return;
 												}
-												let flexClass = `${styles.options_item}`;
-												flexClass += bindex == 0 ? ` ${styles.line}` : '';
-												selectGoodsInfo.prop_list.some((obj) => {
-													if(obj.prop_cfg_id == bitem.prop_cfg_id && obj.prop_value_id == blitem.prop_value_id){
-														flexClass += ` ${styles.on}`;
-														return;
-													}
-												});
-												return (
-													<Flex 
-														key={blindex} 
-														className={flexClass} 
-														align="center" 
-														justify={bindex == 0 ? "between" : "center"} 
-														onClick={(e) => {that.goods_info_modal_change({prop_cfg_id: bitem.prop_cfg_id, prop_value_id: blitem.prop_value_id, });}}
-													>
-														<p>{blitem.name}</p>
-														{ blitem.price ? (<p>{blitem.price}</p>) : '' }
-													</Flex>
-												)
-											})
-										}
-									</Flex>
-								</div>
-							</div>			
+											});
+											return (
+												<Flex 
+													key={blindex} 
+													className={flexClass} 
+													align="center" 
+													justify={bindex == 0 ? "between" : "center"} 
+													onClick={(e) => {that.goods_info_modal_change({prop_cfg_id: bitem.prop_cfg_id, prop_value_id: blitem.prop_value_id, });}}
+												>
+													<p>{blitem.name}</p>
+													{ blitem.price ? (<p>{blitem.price}</p>) : '' }
+												</Flex>
+											)
+										})
+									}
+								</Flex>
+							</div>	
 						)
 					})
 				}
-				<Flex className={styles.pd32} align="center" justify="between">
-					<div className={styles.option_title}>购买数量</div>
-					<ComShopNumber inputNum={selectNumber} maxNum={parseInt(selectGoodsInfo.buy_limit)} subCallBack={this.goods_number_change.bind(this)} addCallBack={this.goods_number_change.bind(this)} />
-				</Flex>
+					<Flex className={styles.pd32} align="center" justify="between">
+						<div className={styles.option_title}>购买数量</div>
+						<ComShopNumber inputNum={selectNumber} maxNum={parseInt(selectGoodsInfo.buy_limit)} subCallBack={this.goods_number_change.bind(this)} addCallBack={this.goods_number_change.bind(this)} />
+					</Flex>
+				</div>
 				<div className={styles.btn_bottom}>
 					<div className={styles.action_box}>
 						<Button className={styles.buy_btn}>加入购物车</Button>
@@ -248,9 +251,18 @@ class detailPage extends React.Component{
 		});
 	}
 	
+	changeDesc(tabOpt){
+		const { descriptionTab } = this.state;
+		if(tabOpt >= 0 && tabOpt != descriptionTab){
+			this.setState({
+				descriptionTab: tabOpt
+			});
+		}
+	}
+	
 	render(){
 		let that = this;
-		const { modalOpen, modelContent, selectGoodsId, selectNumber } = that.state;
+		const { modalOpen, modelContent, selectGoodsId, selectNumber, descriptionTab } = that.state;
 		const { dispatch, viewContent, } = that.props;
 		const { galleryView, titleView, descTabsView } = viewContent;
 		const { pd_market_price, pd_name, pd_price, product_desc, canJoinActs } = titleView;
@@ -276,7 +288,7 @@ class detailPage extends React.Component{
 		) : '';
 		
 		return (
-			<MainLayout hasHeader={false} hasFooter={false} hasStyle={{background: '#efefef'}}>
+			<MainLayout hasHeader={false} hasFooter={true} hasStyle={{background: '#efefef'}}>
 				<header className={styles.de_header}>
 					<Flex className={styles.de_header_full} align="center">
 						<a className={styles.header_btn} onClick={ (e) => { dispatch(routerRedux.goBack()); }}>
@@ -314,7 +326,48 @@ class detailPage extends React.Component{
 						</div>
 					</Flex>
 				</div>
-				
+				<div className={styles.description_view}>
+					<Flex className={styles.description_tab_header} align="center">
+						{
+							descTabsView.map((desItem, desIndex) => {
+								return (
+									<a className={ desIndex == descriptionTab ? `${styles.on}` : '' } key={desIndex} onClick={(e) => { that.changeDesc(desIndex); }} >{desItem.name}</a>
+								)
+							})
+						}
+					</Flex>
+					<div className={styles.description_tab_view}>
+						{
+							descTabsView.map((desItem, desIndex) => {
+								return (
+									<div key={desIndex} style={ desIndex != descriptionTab ? { display: 'none' } : {} }>
+										{
+											desItem.tabContent.map((tabcItem, tabcIndex) => {
+												return (
+													<ImgLazy beginLoad={ desIndex == descriptionTab ? true : false } key={tabcIndex} src={tabcItem} />
+												)
+											})
+										}
+									</div>
+								)
+							})
+						}
+					</div>
+				</div>
+				<RecommendList />
+				<Flex className={styles.detail_footer} align="center">
+					<Link className={styles.footer_btn} to="/">
+						<i className={`${styles.image_icons} ${styles.icon_home}`}></i>
+						<span>首页</span>
+					</Link>
+					<Link className={styles.footer_btn} to="/cart">
+						<i className={`${styles.image_icons} ${styles.icon_shopcar}`}></i>
+						<span>购物车</span>
+					</Link>
+					<div className={styles.action_btn} onClick={that.goods_info_modal_open.bind(that)}>
+						<a className={styles.buy_btn}>加入购物车</a>
+					</div>
+				</Flex>
 				<Modal 
 					popup
 					onClose={that.closeModal.bind(that)}

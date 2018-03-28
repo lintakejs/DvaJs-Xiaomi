@@ -19,7 +19,7 @@ const RecommendList = ({
 					recom_list.map((item, index) => {
 						return (
 							<div className={styles.goods_item} key={index}>
-								<Link>
+								<Link to="/commodity/detail/7574">
 									<ImgLazy src={item.image_url} />
 									<div className={styles.goods_info}>
 										<div className={styles.goods_name}>{item.name}</div>

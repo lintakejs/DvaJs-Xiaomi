@@ -98,6 +98,12 @@ const LoginPage = ({
 					<a className={styles.btn_login} onClick={handleSubmit}>登录</a>
 					<Link to="/register" className={styles.btn_resiger}>注册</Link>
 				</div>
+				<div className={styles.total_tips}>
+					由于是纯前端页面,故使用固定账户,<br/>
+					一切数据均为模拟数据<br/>
+					账号: 13999260121 <br/>
+					密码: 123456
+				</div>
 			</div>
 		</MainLayout>
 	);

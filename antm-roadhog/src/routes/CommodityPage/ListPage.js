@@ -3,6 +3,7 @@ import { Flex } from 'antd-mobile';
 import { Link, routerRedux, } from 'dva/router';
 import CustomIcon from '../../components/CustomIcon/CustomIcon';
 import RecommendList from '../../components/RecommendList/RecommendList';
+import ImgLazy from '../../components/ImgLazy/ImgLazy';
 
 import MainLayout from '../../components/MainLayout/MainLayout';
 
@@ -21,7 +22,7 @@ const ListPage = ({
 					return (
 						<li key={index} className={styles.item} onClick={ (e) => { dispatch(routerRedux.push(`/commodity/detail/${item.product_id}`)) }}>
 							<div className={styles.item_img}>
-								<img src={item.img_url} />
+								<ImgLazy src={item.img_url} />
 								{icon_img}
 							</div>
 							<Flex className={styles.item_intro}>

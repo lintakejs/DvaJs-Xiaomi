@@ -2,7 +2,6 @@ import { connect } from 'dva';
 import { Flex, NavBar, Icon } from 'antd-mobile';
 import { Link } from 'dva/router';
 import ImgLazy from '../../components/ImgLazy/ImgLazy';
-import throttle from '../../utils/throttle';
 
 import MainLayout from '../../components/MainLayout/MainLayout';
 
@@ -20,6 +19,19 @@ class ClassifiPage extends React.Component{
 		};
 	}
 	
+	throttle(fn, delay) {
+        let timer = null;
+
+        return function () {
+            let context = this;
+            let args = arguments;
+            clearTimeout(timer);
+            timer = setTimeout(function () {
+                fn.apply(context, args);
+            }, delay);
+        }
+    }
+	
 	componentDidMount(){
 		let that = this;
 		const { categoryList } = that.props;
@@ -31,7 +43,7 @@ class ClassifiPage extends React.Component{
 			that.listOffsetTop.push(listWChd[i].offsetTop);
 		}
 		
-		that.scrollThrottle = throttle(function(){
+		that.scrollThrottle = this.throttle(function(){
 			var scrollTop = listW.scrollTop;
 			for(var j = 0; j < listWChdLength; j++){
 				if(j + 1 >= listWChdLength){
@@ -114,7 +126,7 @@ class ClassifiPage extends React.Component{
 			    			return (
 			    				<li key={index}>
 						    		<Link to="/">
-						    			<ImgLazy outSideBox={styles.list_wrap} src="//cdn.cnbj0.fds.api.mi-img.com/b2c-mimall-media/31a2edbc3186139d47d8ce8b7c25174b.jpg?thumb=1&w=500&h=200"/>
+						    			<ImgLazy style={{width: '5rem', height: '2rem'}} outSideBox={styles.list_wrap} src="//cdn.cnbj0.fds.api.mi-img.com/b2c-mimall-media/31a2edbc3186139d47d8ce8b7c25174b.jpg?thumb=1&w=500&h=200"/>
 						    		</Link>
 						    		<div className={styles.category_title}>
 						    			<span>{item.categoryname}</span>
@@ -126,7 +138,7 @@ class ClassifiPage extends React.Component{
 				    								<div className={styles.product} key={pdindex}>
 					    								<Link to="/commodity/list/687">
 								    						<div className={styles.img}>
-								    							<ImgLazy outSideBox={styles.list_wrap} src="//i8.mifile.cn/b2c-mimall-media/dd2cdf91ccdadcbe9776050eebb5b437!120x120.png" />
+								    							<ImgLazy style={{width: '1.2rem', height: '1.2rem'}} outSideBox={styles.list_wrap} src="//i8.mifile.cn/b2c-mimall-media/dd2cdf91ccdadcbe9776050eebb5b437!120x120.png" />
 								    						</div>
 								    						<div className={styles.name}>
 								    							{item.categoryname}
