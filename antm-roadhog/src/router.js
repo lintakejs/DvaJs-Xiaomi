@@ -122,10 +122,6 @@ function RouterConfig({ history, app }) {
 						requireIndex(nextState, replace, callback);
 					},
 					getComponent(nextState, cb){
-						setCommon({
-							hasHeader: true,
-							footSelect: 0,
-						});
 						require.ensure([], (require) => {
 							cb(null, require('./routes/IndexPage/IndexPage'));
 						});
@@ -138,10 +134,6 @@ function RouterConfig({ history, app }) {
 						requireCateList(nextState, replace, callback);
 					},
 					getComponent(nextState, cb){
-						setCommon({
-							headerContent: '分类',
-							footSelect: 1,
-						});
 						require.ensure([], (require) => {
 							cb(null, require('./routes/ClassifiPage/ClassifiPage'));
 						});
@@ -154,11 +146,6 @@ function RouterConfig({ history, app }) {
 						requireCartInf(nextState, replace, callback);
 					},
 					getComponent(nextState, cb){
-						setCommon({
-							headerContent: '购物车',
-							footSelect: 2,
-							hasFooter: app._store.getState().ShopCar.items.length > 0 ? false : true,
-						});
 						requireRecList();
 						require.ensure([], (require) => {
 							cb(null, require('./routes/CartPage/CartPage'));
@@ -247,10 +234,6 @@ function RouterConfig({ history, app }) {
 						requireComList(nextState, replace, callback);
 					},
 					getComponent(nextState, cb){
-						setCommon({
-							headerContent: '商品列表',
-							footSelect : 8,
-						});
 						require.ensure([], (require) => {
 							cb(null, require('./routes/CommodityPage/ListPage'));
 						});
@@ -263,12 +246,6 @@ function RouterConfig({ history, app }) {
 						requirePdView(nextState, replace, callback);
 					},
 					getComponent(nextState, cb){
-						setCommon({
-							hasHeader: false,
-							headerContent: '商品详情',
-							hasFooter: false,
-							footSelect : 9,
-						});
 						require.ensure([], (require) => {
 							cb(null, require('./routes/CommodityPage/detailPage/detailPage'));
 						});
