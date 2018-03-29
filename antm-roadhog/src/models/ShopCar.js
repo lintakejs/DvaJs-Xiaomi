@@ -17,9 +17,16 @@ export default {
 			if(status == 'success'){
 				yield put({type: 'setCartItems', payload: datas})
 			}
-			yield put({type: 'appView/setCommonState', payload: { hasFooter: items.length > 0 ? false : true }});
 			
-			onComplete();
+			yield put({
+				type: 'appView/setViewState', 
+				payload: { 
+					headerContent: '购物车',
+					footSelect: 2,
+					hasFooter: items.length > 0 ? false : true 
+				},
+				onComplete: onComplete,
+			});
 		},
 		Settlement: function *({ payload }, { call, put, take, select }){
 			Toast.info('后续的开发需要与服务器紧密交互了，以后做node服务器再继续吧~');
