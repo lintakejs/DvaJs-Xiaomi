@@ -15,7 +15,7 @@ export default {
   	'POST /api/users': (req, res) => {
   		const { username, password } = req.body;
   		if(username == username_test && password == password_test){
-  			res.json({status: 'success', msg: '', data: { accountToken: accountToken_test, phone: username_test, nikeName: '测试账号' }});
+  			res.json({status: 'success', msg: '', data: { accountToken: accountToken_test, phone: username_test, nikeName: '测试账号', client_id: '180100031051' }});
   		}
   		else{
   			res.json({status: 'error', msg: '账户密码错误', data: { }});
@@ -24,7 +24,7 @@ export default {
   	'POST /api/user_check': (req, res) => {
   		const { token } = req.body;
   		if(token == "testDemoUser"){
-  			res.json({status: 'success', msg: '', data: { accountToken: accountToken_test, phone: username_test, nikeName: '测试账号' }});
+  			res.json({status: 'success', msg: '', data: { accountToken: accountToken_test, phone: username_test, nikeName: '测试账号', client_id: '180100031051' }});
   		}
   		else{
   			res.json({status: 'error', msg: 'token失效', data: { }});
@@ -480,7 +480,7 @@ export default {
 		}];
 		
 		let goods_info = [{
-			"buy_limit": "1",
+			"buy_limit": "3",
 			"image_url": "//i8.mifile.cn/v1/a1/97a8e6f0-db84-6a6c-c5a5-4014b3f1fac8!720x7200.jpg",
 			"goods_id": 2173500017,
 			"pd_name": "小米MIX 2 6GB+128GB 黑色陶瓷",
@@ -641,4 +641,43 @@ export default {
 			}
 		});
 	},
+	'POST /api/cart/index': (req, res) => {
+		let client_id = req.body.client_id;
+		
+		let items = client_id ? [{
+			buy_limit: 5,
+			product_name: "小米MIX 2 全网通版 8GB内存 全陶瓷尊享版 皓月白",
+			image_url: "//i1.mifile.cn/a1/pms_1509723338.05097112!180x1800.jpg",
+			price: "4299",
+			num: 2,
+			sel_status: 1,
+			goodsId: 2174200043,
+		},{
+			buy_limit: 1,
+			product_name: "小米MIX2 全网通版 6GB内存 黑色陶瓷 128GB 黑色陶瓷",
+			image_url: "//i1.mifile.cn/a1/pms_1505401551.09912910!180x1800.jpg",
+			price: "3099",
+			num: 1,
+			sel_status: 1,
+			goodsId: 2173500017,
+		}] : [];
+		
+		let ActTotalMoney = 0;
+		let totalSelGoods = 0;
+		items.map((item) => {
+			if(item.sel_status == 1){
+				ActTotalMoney += parseInt(item.price) * item.num;
+				totalSelGoods += item.num;
+			}
+		});
+		
+		res.json({
+			status: 'success',
+			datas: {
+				ActTotalMoney: String(ActTotalMoney),
+				items: items,
+				totalSelGoods: totalSelGoods,
+			}
+		});
+	}
 };
