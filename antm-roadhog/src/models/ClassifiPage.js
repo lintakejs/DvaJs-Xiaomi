@@ -22,8 +22,18 @@ export default {
 			const { status, categoryData } = data;
 			if(status == 'success'){
 				yield put({ type: 'setCateData', payload: categoryData });
-				onComplete();
+				
 			}
+			
+			yield put({
+				type: 'appView/setViewState', 
+				payload: { 
+					headerContent: '分类',
+					footSelect: 1,
+				},
+				onComplete: onComplete,
+			});
+			
 		}
 	},
 	subscriptions: {
