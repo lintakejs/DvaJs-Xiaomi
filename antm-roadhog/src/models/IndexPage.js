@@ -9,7 +9,7 @@ export default {
 		TabList: [],
 	},
 	effects: {
-		*fetchData({ payload, onComplete }, {call, put}){
+		*fetchData({ payload, onComplete }, {call, put, take}){
 			const { data } = yield call(dataEarn, {payload});
 			const { status, pageData } = data;
 			if(status == 'success'){
@@ -20,7 +20,14 @@ export default {
 				});
 			}
 			
-			onComplete();
+			yield put({
+				type: 'appView/setViewState', 
+				payload: { 
+					hasHeader: true,
+					footSelect: 0,
+				},
+				onComplete: onComplete,
+			});
 		},
 	},
 	reducers:{
