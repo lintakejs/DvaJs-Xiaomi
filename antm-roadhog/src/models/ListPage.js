@@ -13,8 +13,16 @@ export default {
 			const { status, com_list } = data;
 			if(status == 'success'){
 				yield put({ type: 'setCommodityList', payload: { com_list } })
-				onComplete();
 			}
+			
+			yield put({
+				type: 'appView/setViewState', 
+				payload: { 
+					headerContent: '商品列表',
+					footSelect : 8,
+				},
+				onComplete: onComplete,
+			});
 		}
 	},
 	reducers: {
