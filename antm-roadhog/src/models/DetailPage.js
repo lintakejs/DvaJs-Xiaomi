@@ -30,8 +30,18 @@ export default {
 			const { view_content, goods_info, buy_option, default_goods_id } = datas;
 			if(status == 'success'){
 				yield put({ type: 'setViewContent', payload: { view_content, goods_info, buy_option, default_goods_id } });
-				onComplete();
 			}
+			
+			yield put({
+				type: 'appView/setViewState', 
+				payload: { 
+					hasHeader: false,
+					headerContent: '商品详情',
+					hasFooter: false,
+					footSelect : 9,
+				},
+				onComplete: onComplete,
+			});
 		},
 	},
 	reducers: {
