@@ -18,7 +18,7 @@ const IndexPage = ({
 	return (
 		<MainLayout>
 			<IndexNavbar />
-			<ComSwiper slideItem={carouselData} autoplay={{delay: 2000,}} />
+			<ComSwiper slideItem={carouselData} autoplay={{delay: 2000, disableOnInteraction: false}} />
 			<Flex justify="center" className={styles.head_flex}>
 				<div className={styles.head_flex_inline}>
 					<CustomIcon className={styles.head_flex_svg} type={require('../../svg/birthday.svg')} />
