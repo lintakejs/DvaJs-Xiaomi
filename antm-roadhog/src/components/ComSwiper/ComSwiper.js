@@ -4,6 +4,7 @@ class ComSwiper extends React.Component{
 	constructor(props) {
 		super(props);
 		
+		this.cont = null;
 		this.sw = null;
 	}
 	
@@ -11,7 +12,7 @@ class ComSwiper extends React.Component{
 		if(this.sw == null){
 			const { resistanceRatio, autoplay } = this.props
 			
-			this.sw = new Swiper('.swiper-container', {
+			this.sw = new Swiper(this.cont, {
 				lazy: true,
 				preloadImages: false,
 				pagination: {
@@ -25,7 +26,7 @@ class ComSwiper extends React.Component{
 	}
 	
 	componentWillUnmount(){
-		if(this.sw){
+		if(this.sw != null){
 			this.sw.destroy();
 			this.sw = null;
 		}
@@ -35,7 +36,7 @@ class ComSwiper extends React.Component{
 		const { slideItem, className } = this.props;
 		let containerCls = className ? `swiper-container ${className}` : `swiper-container`;
 		return (
-			<div className={containerCls}>
+			<div className={containerCls} ref={(cont) => { this.cont = cont; }}>
 				<div className="swiper-wrapper">
 				{
 					slideItem.map((item, index) => (
