@@ -14,6 +14,8 @@ class detailPage extends React.Component{
 	constructor(props){
 		super(props);
 		
+		this.buy_option = [];
+		
 		this.state = {
 			modalOpen: false,
 			modelContent: '',
@@ -51,19 +53,14 @@ class detailPage extends React.Component{
 		const { selectGoodsId, selectNumber } = that.state;
 		let selectGoodsInfo = that.goods_info_search(selectGoodsId);
 		
-		//初始化可以显示可选的规格
-		buy_option.map((bitem, bindex) => {
-			bitem.list.map((blitem, blindex) => {
-				blitem.is_show = false;
-			});
-		});
+		that.buy_option = JSON.parse(JSON.stringify(buy_option));;
 		
 		selectGoodsInfo.prop_list.map((sitem, sindex) => {
 			goods_info.map((gitem, gindex) => {
 				gitem.prop_list.map((gpitem, gpindex) => {
 					if(gpitem.prop_cfg_id == sitem.prop_cfg_id && gpitem.prop_value_id == sitem.prop_value_id){
 						gitem.prop_list.map((gpritem, gprindex) => {
-							buy_option.map((bitem, bindex) => {
+							that.buy_option.map((bitem, bindex) => {
 								if(bitem.prop_cfg_id == gpritem.prop_cfg_id){
 									bitem.list.map((blitem, blindex) => {
 										if(blitem.is_stock || blitem.prop_value_id == gpritem.prop_value_id){
@@ -92,7 +89,7 @@ class detailPage extends React.Component{
 				</Flex>
 				<div className={styles.max5}>
 				{
-					buy_option.map((bitem, bindex) => {
+					that.buy_option.map((bitem, bindex) => {
 						return (
 							<div className={styles.mt2x} key={bindex}>
 								<div className={styles.option_title}>{bitem.name}</div>
@@ -156,7 +153,7 @@ class detailPage extends React.Component{
 	
 	goods_info_modal_change(obj){
 		let that = this;
-		const { goods_info, buy_option, dispatch, } = that.props;
+		const { goods_info, dispatch, } = that.props;
 		const { selectGoodsId } = that.state;
 		
 		let selectGoodsPropList = that.goods_info_search(selectGoodsId).prop_list;
@@ -191,7 +188,7 @@ class detailPage extends React.Component{
 		{
 			let stockPropList = [];
 			selectNewGoodsPropList.map((newItem) => {
-				buy_option.map((bitem) => {
+				that.buy_option.map((bitem) => {
 					if(newItem.prop_cfg_id == bitem.prop_cfg_id){
 						bitem.list.map((blitem) => {
 							if(blitem.is_stock && blitem.prop_value_id == newItem.prop_value_id){
